@@ -5,5 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-  Movie getMovieById(int id);
+  Movie getMovieByMovieId(Long id);
+  Movie getMovieByTmdbMovieId(Long id);
+
+  boolean existsByTmdbMovieId(Long id);
 }

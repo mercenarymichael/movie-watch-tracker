@@ -1,6 +1,7 @@
 package hu.unideb.inf.moviewatchtracker.controller;
 
 import hu.unideb.inf.moviewatchtracker.data.MovieDto;
+import hu.unideb.inf.moviewatchtracker.data.PopularMovieDto;
 import hu.unideb.inf.moviewatchtracker.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +18,22 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("/movie")
-    public ResponseEntity<MovieDto> getMovie(@RequestParam int id) {
+    public ResponseEntity<MovieDto> getMovie(@RequestParam Long id) {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
-    @GetMapping("/movie/popular")
-    public List<MovieDto> getPopularMovies() {
-        return movieService.getPopularMovies();
+    @PostMapping("/movie/watch_list")
+    public void addMovie(@RequestParam Long id, @RequestParam Integer accountId) {
+        movieService.addMovie(id, accountId);
     }
 
-    @PostMapping("/movie")
-    public void addMovie(@RequestBody MovieDto movieDto) {
-        movieService.addMovie(movieDto);
+    @GetMapping("/movie/popular")
+    public List<PopularMovieDto> getPopularMovies() {
+        return movieService.getMovies("/popular");
+    }
+
+    @GetMapping("/movie/now_playing")
+    public List<PopularMovieDto> getNowPlayingMovies() {
+        return movieService.getMovies("/now_playing");
     }
 }
