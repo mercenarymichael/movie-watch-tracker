@@ -9,5 +9,9 @@ import java.io.Serializable;
  */
 @Value
 public class AccountDto {
+    Integer id;
     String username;
+    String email;
+    String role;
+
 }
