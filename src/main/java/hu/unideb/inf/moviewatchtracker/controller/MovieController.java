@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class MovieController {
@@ -17,6 +19,11 @@ public class MovieController {
     @GetMapping("/movie")
     public ResponseEntity<MovieDto> getMovie(@RequestParam int id) {
         return ResponseEntity.ok(movieService.getMovieById(id));
+    }
+
+    @GetMapping("/movie/popular")
+    public List<MovieDto> getPopularMovies() {
+        return movieService.getPopularMovies();
     }
 
     @PostMapping("/movie")

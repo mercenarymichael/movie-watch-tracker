@@ -7,6 +7,8 @@ import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieService {
     @Autowired
@@ -22,5 +24,9 @@ public class MovieService {
     public void addMovie(MovieDto movieDto) {
         Movie movie = movieMapper.movieDtoToMovie(movieDto);
         movieRepository.save(movie);
+    }
+
+    public List<MovieDto> getPopularMovies() {
+        return null;
     }
 }
