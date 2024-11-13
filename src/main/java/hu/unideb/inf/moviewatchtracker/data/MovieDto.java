@@ -12,12 +12,13 @@ import java.util.List;
  */
 @Value
 public class MovieDto{
-    Long id;
+    Long movieId;
+    Long tmdbMovieId;
     String posterUrl;
     String title;
     String overview;
     LocalDate releaseDate;
     String runtime;
     String voteAverage;
-    List<String> genres;
+    //List<String> genres;
 }

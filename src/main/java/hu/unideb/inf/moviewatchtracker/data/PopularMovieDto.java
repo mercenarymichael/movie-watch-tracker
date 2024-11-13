@@ -7,7 +7,8 @@ import java.util.List;
 
 @Value
 public class PopularMovieDto {
-    Long id;
+    Long movieId;
+    Long tmdbMovieId;
     String posterUrl;
     String title;
     String overview;

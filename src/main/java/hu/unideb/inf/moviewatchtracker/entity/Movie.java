@@ -15,15 +15,14 @@ import java.util.List;
 @Table(name = "movie")
 public class Movie {
     @Id
-    @Column(name = "id", nullable = false)
-    @JsonProperty(value="id")
+    @Column(name = "movie_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long movieId;
 
-    private Long id;
-    /*
-    //@JsonProperty(value="id")
+    @JsonProperty(value="id")
     @Column(nullable = false, unique = true)
     private Long tmdbMovieId;
-    */
+
     @JsonProperty(value="poster_path")
     private String posterUrl;
 
@@ -38,9 +37,11 @@ public class Movie {
     @JsonProperty(value="vote_average")
     private String voteAverage;
 
+    /*
     //@JsonProperty(value="genre_ids")
     @ElementCollection
     private List<String> genres;
+    */
 
     @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
     private List<Account> accounts;
