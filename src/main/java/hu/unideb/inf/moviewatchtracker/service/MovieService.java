@@ -19,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MovieService {
@@ -90,5 +92,9 @@ public class MovieService {
                 .limit(10)
                 .collect(Collectors.toList());
         return movieMapper.movieListToPopularMovieDtoList(movies);
+    }
+
+    public List<MovieDto> getPopularMovies() {
+        return null;
     }
 }
