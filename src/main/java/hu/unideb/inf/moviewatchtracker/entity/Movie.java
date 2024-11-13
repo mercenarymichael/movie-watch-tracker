@@ -1,5 +1,6 @@
 package hu.unideb.inf.moviewatchtracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,22 +15,30 @@ import java.util.List;
 @Table(name = "movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @JsonProperty(value="id")
+
     private Long id;
-
+    /*
+    //@JsonProperty(value="id")
     @Column(nullable = false, unique = true)
-    private Long tmdbId;
-
+    private Long tmdbMovieId;
+    */
+    @JsonProperty(value="poster_path")
     private String posterUrl;
 
     @Column(nullable = false)
     private String title;
     private String overview;
+
+    @JsonProperty(value="release_date")
     private LocalDate releaseDate;
     private String runtime;
+
+    @JsonProperty(value="vote_average")
     private String voteAverage;
 
+    //@JsonProperty(value="genre_ids")
     @ElementCollection
     private List<String> genres;
 
