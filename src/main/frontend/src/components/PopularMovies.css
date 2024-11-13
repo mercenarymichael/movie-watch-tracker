@@ -1,0 +1,46 @@
+.grid-base {
+    background-color: rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(154px, 1fr)); /* Automatikusan kitölti a sort */
+    gap: 1rem; /* Különbség a filmek között */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    justify-items: center;
+    align-items: center; 
+    max-width: 900px;
+    border-radius: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+}
+
+.movies-container h1 {
+    color:floralwhite;
+}
+
+.movies-container {
+    margin-top: 50px;
+}
+
+.movie-card {
+    background-color: #ccc;
+    max-width: 154px; /* A poszter szélessége */
+    max-height: 231px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    max-width: 154px; /* A poszter szélessége */
+    max-height: 231px; /* A poszter magassága (154px * 1.5) */
+    object-fit: cover; /* A képek megfelelő arányú megjelenítése */
+    border-radius: 8px;
+}
