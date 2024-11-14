@@ -4,6 +4,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .navbar-links {
@@ -12,15 +14,16 @@
 }
 
 .navbar-button {
-    color: white;
+    color:whitesmoke;
     border: none;
     padding: 10px 15px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    background-color: #0056b3;
     transition: background-color 0.3s ease;
   }
   
   .navbar-button:hover {
-    background-color: #0056b3;
+    background-color: coral;
   }

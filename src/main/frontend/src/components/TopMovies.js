@@ -1,10 +1,9 @@
 import Carousel from 'react-bootstrap/Carousel';
-import Valami from './valami.png';
 import './CarouselCss.css';
 
 function UncontrolledExample() {
   return (
-
+    <div className='carousel'>
         <Carousel>
             <Carousel.Item>
                 <img
@@ -41,7 +40,7 @@ function UncontrolledExample() {
                 <div className='image-overlay'/>
             </Carousel.Item>
         </Carousel>
-
+    </div>
   );
 }
 
