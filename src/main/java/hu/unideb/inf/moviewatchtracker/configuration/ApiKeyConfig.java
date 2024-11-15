@@ -10,5 +10,6 @@ public class ApiKeyConfig {
     public static String getTmdbApiKey() {
         return dotenv.get("TMDB_API_KEY");
     }
+    public static String getJwtSecretKey() { return dotenv.get("JWT_SECRET_KEY"); }
 }
 
