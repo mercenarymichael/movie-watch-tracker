@@ -2,7 +2,7 @@ package hu.unideb.inf.moviewatchtracker.service;
 
 import hu.unideb.inf.moviewatchtracker.configuration.ApiKeyConfig;
 import hu.unideb.inf.moviewatchtracker.data.MovieDto;
-import hu.unideb.inf.moviewatchtracker.data.PopularMovieDto;
+import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
 import hu.unideb.inf.moviewatchtracker.data.TMDBResponse;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
 import hu.unideb.inf.moviewatchtracker.entity.Movie;
@@ -11,15 +11,12 @@ import hu.unideb.inf.moviewatchtracker.repository.AccountRepository;
 import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -73,7 +70,7 @@ public class MovieService {
     }
 
 
-    public List<PopularMovieDto> getMovies(String path) {
+    public List<MovieApiDto> getMovies(String path) {
         String url = UriComponentsBuilder.fromHttpUrl(baseURL + path)
                 .queryParam("api_key", apiKey)
                 .queryParam("language", "en-US")

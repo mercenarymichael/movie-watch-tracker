@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Value
-public class PopularMovieDto {
-    Long movieId;
+public class MovieApiDto {
     Long tmdbMovieId;
     String posterUrl;
+    String backdropPath;
     String title;
     String overview;
     LocalDate releaseDate;

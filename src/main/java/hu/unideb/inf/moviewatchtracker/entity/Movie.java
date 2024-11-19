@@ -26,6 +26,9 @@ public class Movie {
     @JsonProperty(value="poster_path")
     private String posterUrl;
 
+    @JsonProperty(value="backdrop_path")
+    private String backdropPath;
+
     @Column(nullable = false)
     private String title;
     private String overview;

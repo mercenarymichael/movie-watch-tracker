@@ -1,16 +1,23 @@
 import './App.css';
+import {useState} from 'react';
 import NavigationBar from './components/NavigationBar';
-import PopularMovies from './components/PopularMovies';
-import UncontrolledExample from './components/TopMovies';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home'
+import Login from './components/Login';
 
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('jwtToken'));
   return (
-    <div className="App">
-      <NavigationBar />
-      <UncontrolledExample />
-      <PopularMovies />
-    </div>
+    <Router>
+      <div className="App">
+      {isAuthenticated && <NavigationBar isAuthenticated={setIsAuthenticated}/>}
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

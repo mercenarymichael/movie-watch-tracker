@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PopularMovies.css';
+import axios from 'axios';
 
 const PopularMovies = () => {
     const [movies, setMovies] = useState([]);
@@ -7,18 +8,25 @@ const PopularMovies = () => {
     const baseUrl = "https://image.tmdb.org/t/p/w154/";
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/movie/popular')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => setMovies(data))
-            .catch(error => {
+        
+        const token = localStorage.getItem('jwtToken');
+
+        
+        const fetchMovies = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/v1/movie/popular', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                setMovies(response.data);
+            } catch (error) {
                 console.error("Error fetching popular movies:", error);
-            });
-        console.log(movies);
+            }
+        };
+
+        fetchMovies();
     }, []);
 
     return (
