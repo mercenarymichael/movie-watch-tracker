@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
-import "./NavigationBar.css";
+import "../style/NavigationBar.css";
 import { useNavigate } from "react-router-dom";
 
-const NavigationBar = ({ setAuthenticated }) => {
+const NavigationBar = () => {
     const navigate = useNavigate();
-    console.log("setAuthenticated prop:", setAuthenticated);
     const handleLogout = () => {
         localStorage.removeItem("jwtToken");
-        setAuthenticated(false);
         alert("Tokens have been removed");
         navigate("/");
     };

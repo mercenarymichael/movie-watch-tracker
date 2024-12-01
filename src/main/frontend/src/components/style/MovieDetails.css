@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    height: 100vh; 
+    background: rgba(255, 255, 255, 0.8); 
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+  }
+  
+  .left-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .movie-poster {
+    width: 200px; 
+    height: auto; 
+    border-radius: 10px; 
+  }
+  
+  .right-side {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 600px; 
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  

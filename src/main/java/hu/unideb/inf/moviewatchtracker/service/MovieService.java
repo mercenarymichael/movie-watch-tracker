@@ -38,8 +38,20 @@ public class MovieService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public MovieDto getMovieById(Long id) {
-        return movieMapper.movieToMovieDto(movieRepository.getMovieByTmdbMovieId(id));
+    public MovieApiDto getMovieById(Long id) {
+        String url = UriComponentsBuilder.fromHttpUrl(baseURL + id)
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en-US")
+                .toUriString();
+        System.out.println(url);
+        Movie response = webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Movie.class)
+                .block();
+
+        System.out.println(response);
+        return movieMapper.movieToMovieApiDto(response);
     }
 
     public void addMovie(Long id, Integer accountId) {
@@ -57,6 +69,7 @@ public class MovieService {
                 .retrieve()
                 .bodyToMono(Movie.class)
                 .block();
+
         if (movie != null) {
             movieRepository.save(movie);
 
@@ -76,7 +89,6 @@ public class MovieService {
                 .queryParam("language", "en-US")
                 .queryParam("page", 1)
                 .toUriString();
-        System.out.println(url);
 
         //TODO: Check performance issue
         TMDBResponse response = webClient.get()

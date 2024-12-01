@@ -19,7 +19,7 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("/movie")
-    public ResponseEntity<MovieDto> getMovie(@RequestParam Long id) {
+    public ResponseEntity<MovieApiDto> getMovie(@RequestParam Long id) {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 

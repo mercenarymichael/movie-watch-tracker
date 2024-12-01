@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -31,21 +30,40 @@ public class Movie {
 
     @Column(nullable = false)
     private String title;
+
     private String overview;
+
+    private Long budget;
+
+    private String status;
 
     @JsonProperty(value="release_date")
     private LocalDate releaseDate;
-    private String runtime;
+
+    private Integer runtime;
 
     @JsonProperty(value="vote_average")
     private String voteAverage;
 
-    /*
-    //@JsonProperty(value="genre_ids")
-    @ElementCollection
-    private List<String> genres;
-    */
+    private String tagline;
 
     @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
     private List<Account> accounts;
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "movieId=" + movieId +
+                ", tmdbMovieId=" + tmdbMovieId +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", title='" + title + '\'' +
+                ", overview='" + overview + '\'' +
+                ", budget=" + budget +
+                ", status='" + status + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", runtime=" + runtime +
+                ", voteAverage='" + voteAverage + '\'' +
+                '}';
+    }
 }

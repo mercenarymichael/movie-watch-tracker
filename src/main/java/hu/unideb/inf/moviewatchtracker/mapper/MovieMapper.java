@@ -11,7 +11,7 @@ import java.util.List;
 public interface MovieMapper {
     MovieDto movieToMovieDto(Movie movie);
     Movie movieDtoToMovie(MovieDto movieDto);
-    MovieApiDto movieToPopularMovieDto(Movie movie);
+    MovieApiDto movieToMovieApiDto(Movie movie);
 
     List<MovieApiDto> movieListToPopularMovieDtoList(List<Movie> movies);
     List<MovieDto> movieListToMovieDtoList(List<Movie> movies);

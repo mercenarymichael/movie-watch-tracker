@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import './PopularMovies.css';
+import '../style/PopularMovies.css';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const PopularMovies = () => {
     const [movies, setMovies] = useState([]);
     const placeholderImage = "https://via.placeholder.com/154x231?text=Poster";
     const baseUrl = "https://image.tmdb.org/t/p/w154/";
-
+    const navigate = useNavigate();
     useEffect(() => {
         
         const token = localStorage.getItem('jwtToken');
@@ -29,20 +30,19 @@ const PopularMovies = () => {
         fetchMovies();
     }, []);
 
+    const handleClick = (id) => {
+        navigate(`/movie/${id}`)
+    }
+
     return (
         <div className="movies-container">
             <h1>Popular Movies</h1>
             
             <div className="grid-base">
                 {movies.map((movie, index) => (
-                    <a
-                        key={index}
-                        href="https://streamable.com/lf027o"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="movie-link"
-                    >
-                        <div className="movie-card" key={movie.tmdbId || index}>
+                    
+                        <div className="movie-card" key={movie.tmdbMovieId || index}
+                        onClick={() => handleClick(movie.tmdbMovieId)}>
                             <img
                                 src={movie.posterUrl ? `${baseUrl}${movie.posterUrl}` : placeholderImage}
                                 alt={movie.title || `Movie ${index + 1}`}
@@ -50,7 +50,6 @@ const PopularMovies = () => {
                             />
                             {/* <h3>{movie.title}</h3> */}
                         </div>
-                    </a>
                 ))}
             </div>
         </div>
