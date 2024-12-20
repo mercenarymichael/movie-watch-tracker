@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "../style/NavigationBar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
+import logo from '../../assets/cinetrack.png';
 
 const NavigationBar = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const roles = decodedToken.roles.map(role => role.authority);
+                if (decodedToken && roles.includes("ADMIN")) {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error("Invalid token: ", error);
+            }
+        }
+    }, []);
+
+
     const handleLogout = () => {
         localStorage.removeItem("jwtToken");
         alert("Tokens have been removed");
@@ -37,7 +57,11 @@ const NavigationBar = () => {
     };
     return (
         <nav className="navbar">
-            <h1 className="navbar-logo">Movies</h1>
+            <img className="navbar-logo" 
+                src={logo} 
+                alt="Logo" 
+                onClick={() => navigate("/home")}
+            />
             <div className="navbar-links">
                 
                 <form className="navbar-search" onSubmit={handleSearchSubmit}>
@@ -49,8 +73,10 @@ const NavigationBar = () => {
                         className="navbar-search-input"
                     />
                 </form>
-                <button className="navbar-button">Account</button>
-                <button className="navbar-button">Watchlist</button>
+                {isAdmin && (
+                    <button className="navbar-button" onClick={() => navigate("/admin")}>Admin</button>
+                )}
+                <button className="navbar-button" onClick={() => navigate("/watchlist")} >Watchlist</button>
                 <button className="navbar-button" onClick={handleLogout}>Log-out</button>
             </div>
             

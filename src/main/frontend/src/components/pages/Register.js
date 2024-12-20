@@ -24,7 +24,7 @@ const Register = () => {
           password,
           'role': 'USER'
         });
-        console.log(response.statusText);
+        
         if (response.status === 200) {
           navigate("/");
           alert("Registration successful! Please log in.");

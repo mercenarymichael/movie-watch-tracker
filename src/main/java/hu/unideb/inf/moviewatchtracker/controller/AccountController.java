@@ -1,10 +1,11 @@
 package hu.unideb.inf.moviewatchtracker.controller;
 
 import hu.unideb.inf.moviewatchtracker.data.AccountDto;
-import hu.unideb.inf.moviewatchtracker.data.MovieDto;
+import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
 import hu.unideb.inf.moviewatchtracker.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,17 @@ public class AccountController {
     }
 
     @GetMapping("/account/watch_list")
-    public List<MovieDto> getWatchList(@RequestParam Integer id) {
-        return accountService.getWatchList(id);
+    public List<MovieApiDto> getWatchList() {
+        return accountService.getWatchList();
+    }
+
+    @GetMapping("/accounts")
+    public ResponseEntity<List<AccountDto>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
+    }
+
+    @DeleteMapping("/account")
+    public void deleteAccount(@RequestParam int id) {
+        accountService.deleteAccount(id);
     }
 }

@@ -1,9 +1,10 @@
 package hu.unideb.inf.moviewatchtracker.controller;
 
 import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
-import hu.unideb.inf.moviewatchtracker.data.MovieDto;
+import hu.unideb.inf.moviewatchtracker.data.MovieListDto;
+import hu.unideb.inf.moviewatchtracker.entity.Movie;
 import hu.unideb.inf.moviewatchtracker.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -13,19 +14,20 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class MovieController {
-
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
 
     @GetMapping("/movie")
     public ResponseEntity<MovieApiDto> getMovie(@RequestParam Long id) {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
-    @GetMapping("/movie/watch_list")
-    public ResponseEntity<List<MovieApiDto>> getMovieWatchList() {
-        return ResponseEntity.ok(movieService.getMovieWatchList());
+
+
+    @DeleteMapping("/movie")
+    public void deleteMovie(@RequestParam Long id) {
+        movieService.deleteMovie(id);
     }
 
     @PostMapping("/movie/watch_list")
@@ -38,18 +40,27 @@ public class MovieController {
         movieService.deleteMovieFromWatchList(id, username);
     }
 
+
+
     @GetMapping("/movie/popular")
     public List<MovieApiDto> getPopularMovies() {
         return movieService.getMovies("/popular");
     }
+
 
     @GetMapping("/movie/now_playing")
     public List<MovieApiDto> getNowPlayingMovies() {
         return movieService.getMovies("/now_playing");
     }
 
+
     @GetMapping("/movie/search")
     public Long getMovieTmdbIdByName(@RequestParam String name) {
         return movieService.getMovieTmdbIdByName(name);
+    }
+
+    @GetMapping("/movies")
+    public ResponseEntity<List<MovieListDto>> getAllMovies() {
+        return ResponseEntity.ok(movieService.getAllMovies());
     }
 }

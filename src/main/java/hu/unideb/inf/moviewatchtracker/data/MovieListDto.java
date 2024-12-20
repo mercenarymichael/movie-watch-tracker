@@ -1,17 +1,14 @@
 package hu.unideb.inf.moviewatchtracker.data;
 
 import lombok.Value;
-import org.mapstruct.Mapper;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * DTO for {@link hu.unideb.inf.moviewatchtracker.entity.Movie}
  */
 @Value
-public class MovieDto{
+public class MovieListDto {
     Long movieId;
     Long tmdbMovieId;
     String posterUrl;

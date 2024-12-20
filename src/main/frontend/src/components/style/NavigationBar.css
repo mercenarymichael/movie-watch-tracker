@@ -36,6 +36,18 @@
   justify-content: center;
 }
 
+.navbar-logo {
+  padding: 0;
+  margin: 0;
+  width: 150px;
+  opacity: 0.9;
+  height: auto;
+}
+
+.navbar-logo:hover {
+  cursor: pointer;
+}
+
 .navbar-search-input {
   padding: 5px 10px;
   font-size: 16px;

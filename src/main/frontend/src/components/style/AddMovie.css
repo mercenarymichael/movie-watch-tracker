@@ -1,0 +1,24 @@
+.outer-container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.inner-container {
+    background-color: #fff;
+    padding: 50px 70px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    max-width: 500px;
+}
+
+.custom-control {
+    border-radius: 5px;
+    border-color: coral;
+    margin-bottom: 12px;
+}

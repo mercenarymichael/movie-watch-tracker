@@ -1,8 +1,8 @@
 package hu.unideb.inf.moviewatchtracker.service;
 
 import hu.unideb.inf.moviewatchtracker.configuration.ApiKeyConfig;
-import hu.unideb.inf.moviewatchtracker.data.MovieDto;
 import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
+import hu.unideb.inf.moviewatchtracker.data.MovieListDto;
 import hu.unideb.inf.moviewatchtracker.data.SearchDto;
 import hu.unideb.inf.moviewatchtracker.data.TMDBResponse;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
@@ -12,7 +12,6 @@ import hu.unideb.inf.moviewatchtracker.repository.AccountRepository;
 import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -53,6 +52,7 @@ public class MovieService {
         System.out.println(response);
         return movieMapper.movieToMovieApiDto(response);
     }
+
 
     //TODO: username-t elhagyni, és a jelenleg bejelentkezett felhasználót használni contextből
     @Transactional
@@ -112,12 +112,9 @@ public class MovieService {
         List<Movie> movies = response.getResults().stream()
                 .limit(10)
                 .collect(Collectors.toList());
-        return movieMapper.movieListToPopularMovieDtoList(movies);
+        return movieMapper.movieListToMovieApiDtoList(movies);
     }
 
-    public List<MovieDto> getPopularMovies() {
-        return null;
-    }
 
     //TODO: átnevezni, mert hasonlít a repoban lévő methodra
     public Long getMovieTmdbIdByName(String name) {
@@ -134,16 +131,14 @@ public class MovieService {
                 .bodyToMono(SearchDto.class)
                 .block();
         return response.getResults().get(0).getTmdbMovieId();
-
     }
 
-    public List<MovieApiDto> getMovieWatchList() {
-        /*
-        Optional<Account> account = accountService.getAccount();
-        if (account.isPresent()) {
-            return accountRepository
-        }
-         */
-        return null;
+    public List<MovieListDto> getAllMovies() {
+        return movieMapper.movieListToMovieDtoList(movieRepository.findAll());
+    }
+
+    public void deleteMovie(Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        movie.ifPresent(movieRepository::delete);
     }
 }
