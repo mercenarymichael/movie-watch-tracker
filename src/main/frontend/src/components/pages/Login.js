@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import '../style/Login.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -20,20 +20,21 @@ const Login = () => {
       if (response.data.token) {
         const token = response.data.token;
         localStorage.setItem("jwtToken", token);
+        localStorage.setItem("username", username);
         navigate("/home");
-        alert("Sikeres bejelentkezés!");
+        alert("Successful sign in!");
       } else {
-        setErrorMessage("Hibás felhasználónév vagy jelszó!");
+        setErrorMessage("Incorrect username or password!");
       }
     } catch (error) {
-      setErrorMessage("Helytelen adatok vagy API hiba!");
+      setErrorMessage("Incorrect data or API error!");
     }
   };
 
   return (
     <div className="login-page">
       <div className="outer-box">
-        <h2>Bejelentkezés</h2>
+        <h2>Sign in</h2>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: "10px" }}>
             <label>Username: </label>
@@ -55,8 +56,9 @@ const Login = () => {
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <button type="submit">
-            Bejelentkezés
+            Sign in
           </button>
+          <p>Don't have an account? <Link to="/register">Register</Link></p>
         </form>
       </div>
     </div>

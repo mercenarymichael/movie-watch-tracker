@@ -31,6 +31,7 @@ public class Movie {
     @Column(nullable = false)
     private String title;
 
+    @Lob
     private String overview;
 
     private Long budget;

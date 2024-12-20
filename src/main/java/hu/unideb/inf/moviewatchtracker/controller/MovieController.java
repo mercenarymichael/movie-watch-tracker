@@ -23,9 +23,19 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
+    @GetMapping("/movie/watch_list")
+    public ResponseEntity<List<MovieApiDto>> getMovieWatchList() {
+        return ResponseEntity.ok(movieService.getMovieWatchList());
+    }
+
     @PostMapping("/movie/watch_list")
-    public void addMovie(@RequestParam Long id, @RequestParam Integer accountId) {
-        movieService.addMovie(id, accountId);
+    public void addMovie(@RequestParam Long id, @RequestParam String username) {
+        movieService.addMovie(id, username);
+    }
+
+    @DeleteMapping("/movie/watch_list")
+    public void deleteMovieFromWatchList(@RequestParam Long id, @RequestParam String username) {
+        movieService.deleteMovieFromWatchList(id, username);
     }
 
     @GetMapping("/movie/popular")
@@ -36,5 +46,10 @@ public class MovieController {
     @GetMapping("/movie/now_playing")
     public List<MovieApiDto> getNowPlayingMovies() {
         return movieService.getMovies("/now_playing");
+    }
+
+    @GetMapping("/movie/search")
+    public Long getMovieTmdbIdByName(@RequestParam String name) {
+        return movieService.getMovieTmdbIdByName(name);
     }
 }

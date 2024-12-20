@@ -8,6 +8,7 @@ const MovieDetails = () => {
     const baseUrl = "https://image.tmdb.org/t/p/w500/";
     const [isClicked, setIsClicked] = useState(false);
     const {id} = useParams();
+    
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
         
@@ -51,11 +52,45 @@ const MovieDetails = () => {
         return <p>Loading...</p>;
     }
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        const token = localStorage.getItem('jwtToken');
         if(isClicked === false) {
-            //TODO
+            try {
+                const response = await axios.post('http://localhost:8080/api/v1/movie/watch_list', null, {
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                  params: {
+                    id: movie.tmdbMovieId,  // Az id paraméter a URL-ben
+                    username: localStorage.getItem("username"),  // A username paraméter a URL-ben
+                  },
+                });
+            
+                console.log('Success: added movie '+movie.title+' to watchlist');
+                setIsClicked(true);
+              } catch (error) {
+                console.error('Error:', error);
+            }
         } else {
-            //TODO
+            try {
+                const response = await axios.delete('http://localhost:8080/api/v1/movie/watch_list', {
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                  params: {
+                    id: movie.tmdbMovieId,
+                    username: localStorage.getItem("username"),
+                  },
+                });
+            
+                console.log('Success: deleted movie '+movie.title+' from watchlist');
+                setIsClicked(false);
+              } catch (error) {
+                console.error('Error:', error);
+            }
+            
         }
     }
 
@@ -69,7 +104,9 @@ const MovieDetails = () => {
                         alt={movie.title}
                         className="movie-poster"
                     />
-                    <button className="watchlist" onClick={handleClick}>Add to Watchlist</button>
+                    <button className="watchlist" onClick={handleClick}>
+                        {isClicked ? '✔️ Movie Added' : 'Add to Watchlist'}
+                    </button>
                 </div>
                 <div className='right-side'>
                     <h1>{movie.title}</h1>

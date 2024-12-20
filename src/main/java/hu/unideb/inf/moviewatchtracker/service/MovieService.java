@@ -3,12 +3,14 @@ package hu.unideb.inf.moviewatchtracker.service;
 import hu.unideb.inf.moviewatchtracker.configuration.ApiKeyConfig;
 import hu.unideb.inf.moviewatchtracker.data.MovieDto;
 import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
+import hu.unideb.inf.moviewatchtracker.data.SearchDto;
 import hu.unideb.inf.moviewatchtracker.data.TMDBResponse;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
 import hu.unideb.inf.moviewatchtracker.entity.Movie;
 import hu.unideb.inf.moviewatchtracker.mapper.MovieMapper;
 import hu.unideb.inf.moviewatchtracker.repository.AccountRepository;
 import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,18 +29,15 @@ public class MovieService {
 
     private final String baseURL = "https://api.themoviedb.org/3/movie/";
 
-    @Autowired
     private final WebClient webClient;
+    private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
+    private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    private MovieRepository movieRepository;
+    //TODO: generikus method webClientre
 
-    @Autowired
-    private MovieMapper movieMapper;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
+    @Transactional
     public MovieApiDto getMovieById(Long id) {
         String url = UriComponentsBuilder.fromHttpUrl(baseURL + id)
                 .queryParam("api_key", apiKey)
@@ -54,7 +54,9 @@ public class MovieService {
         return movieMapper.movieToMovieApiDto(response);
     }
 
-    public void addMovie(Long id, Integer accountId) {
+    //TODO: username-t elhagyni, és a jelenleg bejelentkezett felhasználót használni contextből
+    @Transactional
+    public void addMovie(Long id, String username) {
         if(movieRepository.existsByTmdbMovieId(id)) {
             System.out.println("Movie already exists");
             return;
@@ -73,7 +75,7 @@ public class MovieService {
         if (movie != null) {
             movieRepository.save(movie);
 
-            Account account = accountRepository.findById(accountId)
+            Account account = accountRepository.findAccountByUsername(username)
                     .orElseThrow(() -> new RuntimeException("Account not found"));
             account.getMovies().add(movie);
             accountRepository.save(account);
@@ -82,7 +84,17 @@ public class MovieService {
         }
     }
 
+    @Transactional
+    public void deleteMovieFromWatchList(Long id, String username) {
+        Movie movie = movieRepository.getMovieByTmdbMovieId(id);
+        Account account = accountRepository.findAccountByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        System.out.println(account.getMovies());
+        account.getMovies().remove(movie);
+        accountRepository.save(account);
+    }
 
+    @Transactional
     public List<MovieApiDto> getMovies(String path) {
         String url = UriComponentsBuilder.fromHttpUrl(baseURL + path)
                 .queryParam("api_key", apiKey)
@@ -104,6 +116,34 @@ public class MovieService {
     }
 
     public List<MovieDto> getPopularMovies() {
+        return null;
+    }
+
+    //TODO: átnevezni, mert hasonlít a repoban lévő methodra
+    public Long getMovieTmdbIdByName(String name) {
+        String url = UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/movie")
+                .queryParam("api_key", apiKey)
+                .queryParam("query", name)
+                .queryParam("language", "en-US")
+                .queryParam("page", 1)
+                .toUriString();
+        System.out.println(url);
+        SearchDto response = webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(SearchDto.class)
+                .block();
+        return response.getResults().get(0).getTmdbMovieId();
+
+    }
+
+    public List<MovieApiDto> getMovieWatchList() {
+        /*
+        Optional<Account> account = accountService.getAccount();
+        if (account.isPresent()) {
+            return accountRepository
+        }
+         */
         return null;
     }
 }
