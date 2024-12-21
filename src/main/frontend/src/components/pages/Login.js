@@ -34,8 +34,8 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="outer-box">
-        <h2>Sign in</h2>
-        <form onSubmit={handleSubmit}>
+        <h1>Sign in</h1>
+        <form onSubmit={handleSubmit} className="login-form">
           <div style={{ marginBottom: "10px" }}>
             <label>Username: </label>
             <input

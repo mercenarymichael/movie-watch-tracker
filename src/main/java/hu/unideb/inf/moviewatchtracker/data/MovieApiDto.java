@@ -5,6 +5,7 @@ import lombok.Value;
 import java.time.LocalDate;
 
 @Value
+//TODO: kitalalni jobb nevet
 public class MovieApiDto {
     Long tmdbMovieId;
     String posterUrl;

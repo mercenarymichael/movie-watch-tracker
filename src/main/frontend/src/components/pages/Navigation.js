@@ -1,18 +1,11 @@
-import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import React, { useEffect, useState } from "react";
-import "../style/navbar.css";
+import "../style/NavigationBar.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import logo from '../../assets/cinetrack.png';
 
-
-const NavigationBar = () => {
+const Navigation = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
@@ -62,39 +55,34 @@ const NavigationBar = () => {
 
         
     };
-
     return (
-        <Navbar className="justify-content-between">
+        <nav className="navbar">
             <img className="navbar-logo" 
-                    src={logo} 
-                    alt="Logo" 
-                    onClick={() => navigate("/home")}
+                src={logo} 
+                alt="Logo" 
+                onClick={() => navigate("/home")}
             />
-            <Form inline onSubmit={handleSearchSubmit} className="search-form">
-                <Row>
-                <Col xs="auto">
-                    <Form.Control
-                    type="text"
-                    value={searchQuery}
-                    placeholder="Search"
-                    onChange={handleSearchChange}
-                    className=" mr-sm-2"
+            <div className="navbar-links">
+                
+                <form className="navbar-search" onSubmit={handleSearchSubmit}>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Search movies..."
+                        className="navbar-search-input"
                     />
-                </Col>
-                <Col xs="auto" className="button-group">
-                    {isAdmin && (
-                        <Button onClick={() => navigate("/admin")}>Admin</Button>
-                    )}
-                    
-                    <Button onClick={() => navigate("/account")}>Account</Button>
-                    <Button onClick={() => navigate("/watchlist")}>Watchlist</Button>
-                    <Button onClick={handleLogout}>Log out</Button>
-                </Col>
-                </Row>
-            </Form>
+                </form>
+                {isAdmin && (
+                    <button className="navbar-button" onClick={() => navigate("/admin")}>Admin</button>
+                )}
+                <button className="navbar-button" onClick={() => navigate("/account")} >Account</button>
+                <button className="navbar-button" onClick={() => navigate("/watchlist")} >Watchlist</button>
+                <button className="navbar-button" onClick={handleLogout}>Log-out</button>
+            </div>
             
-        </Navbar>
-    );
+        </nav>
+    )
 }
 
-export default NavigationBar;
+export default Navigation;

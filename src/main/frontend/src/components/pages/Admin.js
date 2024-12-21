@@ -40,22 +40,22 @@ function Admin() {
         fetchData();
     }, []);
 
-    const handleDelete = async (line) => {
+    const handleDelete = async (record) => {
         try {
             await axios.delete(`http://localhost:8080/api/v1/account`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
                 params: {
-                    id: line.id, 
+                    id: record.id, 
                 }
             });
-            alert(`ID ${line.id} törölve lett!`);
+            alert(`Record with ID ${record.id} deleted!`);
 
-            setAccounts((prevLines) => prevLines.filter((item) => item.id !== line.id));
+            setAccounts((prevLines) => prevLines.filter((item) => item.id !== record.id));
         } catch (error) {
-            console.error('Hiba történt a törlés során:', error);
-            alert('Nem sikerült törölni az elemet!');
+            console.error('Error while deleting:', error);
+            alert('Failed to delete the record!');
         }
     }
 

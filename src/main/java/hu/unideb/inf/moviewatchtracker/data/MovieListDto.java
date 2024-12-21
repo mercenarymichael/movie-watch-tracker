@@ -8,6 +8,7 @@ import java.time.LocalDate;
  * DTO for {@link hu.unideb.inf.moviewatchtracker.entity.Movie}
  */
 @Value
+//TODO kitalalni jobb nevet
 public class MovieListDto {
     Long movieId;
     Long tmdbMovieId;

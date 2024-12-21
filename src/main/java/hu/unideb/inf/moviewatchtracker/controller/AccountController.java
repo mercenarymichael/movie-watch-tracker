@@ -3,7 +3,9 @@ package hu.unideb.inf.moviewatchtracker.controller;
 import hu.unideb.inf.moviewatchtracker.data.AccountDto;
 import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
+import hu.unideb.inf.moviewatchtracker.mapper.AccountMapper;
 import hu.unideb.inf.moviewatchtracker.service.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,21 +13,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+    private final AccountMapper mapper;
 
     @GetMapping("/account")
-    public AccountDto account(@RequestParam int id) {
-        return accountService.getAccountById(id);
+    public AccountDto getAccount() {
+        return mapper.accountToAccountDto(accountService.getAccount().get());
     }
 
     @PostMapping("/account")
     public void account(@RequestBody Account account) {
         accountService.registerAccount(account);
+    }
+
+    @PostMapping("/account/password")
+    public void updatePassword(@RequestParam String newPassword) {
+        accountService.updatePassword(newPassword);
     }
 
     @GetMapping("/account/watch_list")

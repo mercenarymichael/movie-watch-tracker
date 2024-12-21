@@ -8,26 +8,28 @@ import hu.unideb.inf.moviewatchtracker.mapper.MovieMapper;
 import hu.unideb.inf.moviewatchtracker.repository.AccountRepository;
 import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    private AccountMapper accountMapper;
+    private final AccountMapper accountMapper;
 
-    @Autowired
-    private MovieMapper movieMapper;
-    @Autowired
-    private MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
+
+    private final MovieRepository movieRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     public AccountDto getAccountById(int id) {
         return accountMapper.accountToAccountDto(accountRepository.getAccountById(id));
@@ -42,6 +44,7 @@ public class AccountService {
         Optional<Account> account = getAccount();
         return account.map(value -> movieMapper.movieListToMovieApiDtoList(value.getMovies())).orElse(null);
     }
+
 
     public Optional<Account> getAccount() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -58,5 +61,13 @@ public class AccountService {
     public void deleteAccount(int id) {
         Optional<Account> account = accountRepository.findById(id);
         account.ifPresent(accountRepository::delete);
+    }
+
+    public void updatePassword(String newPassword) {
+        Optional<Account> account = getAccount();
+        if (account.isPresent()) {
+            account.get().setPassword(passwordEncoder.encode(newPassword));
+            accountRepository.save(account.get());
+        }
     }
 }
