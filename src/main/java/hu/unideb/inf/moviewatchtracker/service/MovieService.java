@@ -112,7 +112,7 @@ public class MovieService {
         return movieMapper.movieListToMovieApiDtoList(movies);
     }
 
-
+    @Transactional
     public Long getTmdbId(String name) {
         String url = UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/movie")
                 .queryParam("api_key", apiKey)
@@ -133,8 +133,12 @@ public class MovieService {
         return movieMapper.movieListToMovieDtoList(movieRepository.findAll());
     }
 
+    @Transactional
     public void deleteMovie(Long id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        movie.ifPresent(movieRepository::delete);
+        if (movie.isPresent()) {
+            movie.get().getAccounts().forEach(account -> account.getMovies().remove(movie.get()));
+            movieRepository.delete(movie.get());
+        }
     }
 }
