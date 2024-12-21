@@ -1,44 +1,11 @@
-.navbar {
-  color: brown;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.navbar-links {
+.button-group {
   display: flex;
   gap: 15px;
 }
 
-.navbar-button {
-  color: whitesmoke;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  background-color: #0056b3;
-  transition: background-color 0.3s ease;
-}
-
-.navbar-button:hover {
-  background-color: coral;
-}
-
-/* Keresőmező stílus */
-.navbar-search {
-  display: flex;
-  margin-top: 0;
-  align-items: center;
-  justify-content: center;
-}
-
 .navbar-logo {
   padding: 0;
-  margin: 0;
+  margin-left: 20px;
   width: 150px;
   opacity: 0.9;
   height: auto;
@@ -48,20 +15,10 @@
   cursor: pointer;
 }
 
-.navbar-search-input {
-  padding: 5px 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  width: 200px;
-  align-items: center;
-  justify-content: center;
-  transition: border 0.3s ease;
+.search-form {
+  margin: 0px 20px 0px;
 }
 
-.navbar-search-input:focus {
-  outline: none;
-  border: 2px solid #0056b3;
+.button-group button:hover {
+  background-color: crimson;
 }
-
-

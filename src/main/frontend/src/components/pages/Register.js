@@ -14,27 +14,30 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-        setErrorMessage("Passwords do not match!");
-        return;
+      setErrorMessage("Passwords do not match!");
+      return;
     }
     try {
-        const response = await axios.post("http://localhost:8080/api/v1/auth/register", {
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/register",
+        {
           username,
           email,
           password,
-          'role': 'USER'
-        });
-        
-        if (response.status === 200) {
-          navigate("/");
-          alert("Registration successful! Please log in.");
-        } else {
-          setErrorMessage("Registration failed. Please try again.");
+          role: "USER",
         }
-      } catch (error) {
-        setErrorMessage("Error occurred while registering. Please try again.");
+      );
+
+      if (response.status === 200) {
+        navigate("/");
+        alert("Registration successful! Please log in.");
+      } else {
+        setErrorMessage("Registration failed. Please try again.");
       }
-  }
+    } catch (error) {
+      setErrorMessage("Error occurred while registering. Please try again.");
+    }
+  };
 
   return (
     <div className="login-page">
@@ -49,7 +52,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>  
+          </div>
           <div style={{ marginBottom: "10px" }}>
             <label>Username: </label>
             <input
@@ -78,10 +81,10 @@ const Register = () => {
             />
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <button type="submit">
-            Sign up
-          </button>
-          <p>Already have an account? <Link to="/">Sign in</Link></p>
+          <button type="submit">Sign up</button>
+          <p>
+            Already have an account? <Link to="/">Sign in</Link>
+          </p>
         </form>
       </div>
     </div>

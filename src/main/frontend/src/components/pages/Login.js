@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import '../style/Login.css'
-import { Link, useNavigate } from 'react-router-dom';
+import "../style/Login.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -12,11 +12,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/auth/authenticate", {
-        username,
-        password,
-      });
-      console.log(response.data.token)
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/authenticate",
+        {
+          username,
+          password,
+        }
+      );
+      console.log(response.data.token);
       if (response.data.token) {
         const token = response.data.token;
         localStorage.setItem("jwtToken", token);
@@ -55,10 +58,10 @@ const Login = () => {
             />
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <button type="submit">
-            Sign in
-          </button>
-          <p>Don't have an account? <Link to="/register">Register</Link></p>
+          <button type="submit">Sign in</button>
+          <p>
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
         </form>
       </div>
     </div>

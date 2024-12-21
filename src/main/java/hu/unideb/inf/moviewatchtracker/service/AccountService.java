@@ -1,7 +1,7 @@
 package hu.unideb.inf.moviewatchtracker.service;
 
 import hu.unideb.inf.moviewatchtracker.data.AccountDto;
-import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
+import hu.unideb.inf.moviewatchtracker.data.ExtendedMovieDetails;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
 import hu.unideb.inf.moviewatchtracker.mapper.AccountMapper;
 import hu.unideb.inf.moviewatchtracker.mapper.MovieMapper;
@@ -9,7 +9,6 @@ import hu.unideb.inf.moviewatchtracker.repository.AccountRepository;
 import hu.unideb.inf.moviewatchtracker.repository.MovieRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class AccountService {
     }
 
     @Transactional
-    public List<MovieApiDto> getWatchList() {
+    public List<ExtendedMovieDetails> getWatchList() {
         Optional<Account> account = getAccount();
         return account.map(value -> movieMapper.movieListToMovieApiDtoList(value.getMovies())).orElse(null);
     }

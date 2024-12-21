@@ -1,8 +1,7 @@
 package hu.unideb.inf.moviewatchtracker.controller;
 
-import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
-import hu.unideb.inf.moviewatchtracker.data.MovieListDto;
-import hu.unideb.inf.moviewatchtracker.entity.Movie;
+import hu.unideb.inf.moviewatchtracker.data.BasicMovieDetails;
+import hu.unideb.inf.moviewatchtracker.data.ExtendedMovieDetails;
 import hu.unideb.inf.moviewatchtracker.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +18,9 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/movie")
-    public ResponseEntity<MovieApiDto> getMovie(@RequestParam Long id) {
+    public ResponseEntity<ExtendedMovieDetails> getMovie(@RequestParam Long id) {
         return ResponseEntity.ok(movieService.getMovieById(id));
     }
-
 
 
     @DeleteMapping("/movie")
@@ -30,10 +28,12 @@ public class MovieController {
         movieService.deleteMovie(id);
     }
 
+
     @PostMapping("/movie/watch_list")
     public void addMovie(@RequestParam Long id, @RequestParam String username) {
         movieService.addMovie(id, username);
     }
+
 
     @DeleteMapping("/movie/watch_list")
     public void deleteMovieFromWatchList(@RequestParam Long id, @RequestParam String username) {
@@ -41,26 +41,26 @@ public class MovieController {
     }
 
 
-
     @GetMapping("/movie/popular")
-    public List<MovieApiDto> getPopularMovies() {
+    public List<ExtendedMovieDetails> getPopularMovies() {
         return movieService.getMovies("/popular");
     }
 
 
     @GetMapping("/movie/now_playing")
-    public List<MovieApiDto> getNowPlayingMovies() {
+    public List<ExtendedMovieDetails> getNowPlayingMovies() {
         return movieService.getMovies("/now_playing");
     }
 
 
     @GetMapping("/movie/search")
-    public Long getMovieTmdbIdByName(@RequestParam String name) {
-        return movieService.getMovieTmdbIdByName(name);
+    public Long getTmdbId(@RequestParam String name) {
+        return movieService.getTmdbId(name);
     }
 
+
     @GetMapping("/movies")
-    public ResponseEntity<List<MovieListDto>> getAllMovies() {
+    public ResponseEntity<List<BasicMovieDetails>> getAllMovies() {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 }

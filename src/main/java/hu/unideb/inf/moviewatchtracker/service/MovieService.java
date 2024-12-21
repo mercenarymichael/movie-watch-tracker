@@ -1,8 +1,8 @@
 package hu.unideb.inf.moviewatchtracker.service;
 
 import hu.unideb.inf.moviewatchtracker.configuration.ApiKeyConfig;
-import hu.unideb.inf.moviewatchtracker.data.MovieApiDto;
-import hu.unideb.inf.moviewatchtracker.data.MovieListDto;
+import hu.unideb.inf.moviewatchtracker.data.ExtendedMovieDetails;
+import hu.unideb.inf.moviewatchtracker.data.BasicMovieDetails;
 import hu.unideb.inf.moviewatchtracker.data.SearchDto;
 import hu.unideb.inf.moviewatchtracker.data.TMDBResponse;
 import hu.unideb.inf.moviewatchtracker.entity.Account;
@@ -31,13 +31,12 @@ public class MovieService {
     private final WebClient webClient;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
-    private final AccountService accountService;
     private final AccountRepository accountRepository;
 
     //TODO: generikus method webClientre
 
     @Transactional
-    public MovieApiDto getMovieById(Long id) {
+    public ExtendedMovieDetails getMovieById(Long id) {
         String url = UriComponentsBuilder.fromHttpUrl(baseURL + id)
                 .queryParam("api_key", apiKey)
                 .queryParam("language", "en-US")
@@ -54,7 +53,6 @@ public class MovieService {
     }
 
 
-    //TODO: username-t elhagyni, és a jelenleg bejelentkezett felhasználót használni contextből
     @Transactional
     public void addMovie(Long id, String username) {
         if(movieRepository.existsByTmdbMovieId(id)) {
@@ -95,14 +93,13 @@ public class MovieService {
     }
 
     @Transactional
-    public List<MovieApiDto> getMovies(String path) {
+    public List<ExtendedMovieDetails> getMovies(String path) {
         String url = UriComponentsBuilder.fromHttpUrl(baseURL + path)
                 .queryParam("api_key", apiKey)
                 .queryParam("language", "en-US")
                 .queryParam("page", 1)
                 .toUriString();
 
-        //TODO: Check performance issue
         TMDBResponse response = webClient.get()
                 .uri(url)
                 .retrieve()
@@ -116,8 +113,7 @@ public class MovieService {
     }
 
 
-    //TODO: átnevezni, mert hasonlít a repoban lévő methodra
-    public Long getMovieTmdbIdByName(String name) {
+    public Long getTmdbId(String name) {
         String url = UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/movie")
                 .queryParam("api_key", apiKey)
                 .queryParam("query", name)
@@ -133,7 +129,7 @@ public class MovieService {
         return response.getResults().get(0).getTmdbMovieId();
     }
 
-    public List<MovieListDto> getAllMovies() {
+    public List<BasicMovieDetails> getAllMovies() {
         return movieMapper.movieListToMovieDtoList(movieRepository.findAll());
     }
 
